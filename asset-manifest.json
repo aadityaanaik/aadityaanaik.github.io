@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.8bc9e3c8.css",
-    "main.js": "/static/js/main.10e61024.js",
+    "main.css": "/static/css/main.2f12421f.css",
+    "main.js": "/static/js/main.49f24477.js",
     "static/media/portfolio.gif": "/static/media/portfolio.ed6c89f1485f23014ebd.gif",
     "static/media/fa-solid-900.svg": "/static/media/fa-solid-900.7f05673ba117efef951b.svg",
     "static/media/fa-brands-400.svg": "/static/media/fa-brands-400.86064e8fc76a82c2d85d.svg",
@@ -33,7 +33,6 @@
     "static/media/animated_logo.svg": "/static/media/animated_logo.aa55ed6b6c26fc2794a6.svg",
     "static/media/fa-solid-900.woff2": "/static/media/fa-solid-900.4a83f63fd7dd55c4ca85.woff2",
     "static/media/fa-brands-400.woff2": "/static/media/fa-brands-400.1c638e5f7632ea819e77.woff2",
-    "static/media/ui_ux_design.svg": "/static/media/ui_ux_design.ffef10a7b4dba15770a1.svg",
     "static/media/iiitk_logo.png": "/static/media/iiitk_logo.170d558551a09a7d1620.png",
     "static/media/intel_logo.jpg": "/static/media/intel_logo.d7577f35a3dac4e5636d.jpg",
     "static/media/animated_aditya.png": "/static/media/animated_aditya.a99cdbe37364f2374e42.png",
@@ -65,11 +64,11 @@
     "static/media/googleAssistant.svg": "/static/media/googleAssistant.3e53209908a124134ef7.svg",
     "static/media/talksCardBackAlt.svg": "/static/media/talksCardBackAlt.e2c83a0010ec8ea8b649.svg",
     "static/media/talksCardBack.svg": "/static/media/talksCardBack.d197bc988b4159820eac.svg",
-    "main.8bc9e3c8.css.map": "/static/css/main.8bc9e3c8.css.map",
-    "main.10e61024.js.map": "/static/js/main.10e61024.js.map"
+    "main.2f12421f.css.map": "/static/css/main.2f12421f.css.map",
+    "main.49f24477.js.map": "/static/js/main.49f24477.js.map"
   },
   "entrypoints": [
-    "static/css/main.8bc9e3c8.css",
-    "static/js/main.10e61024.js"
+    "static/css/main.2f12421f.css",
+    "static/js/main.49f24477.js"
   ]
 }
