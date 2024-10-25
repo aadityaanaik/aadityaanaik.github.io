@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/static/css/main.6f1d31fd.css",
-    "main.js": "/static/js/main.6a55bd22.js",
+    "main.js": "/static/js/main.b429e6ab.js",
     "static/media/portfolio.gif": "/static/media/portfolio.ed6c89f1485f23014ebd.gif",
     "static/media/fa-solid-900.svg": "/static/media/fa-solid-900.7f05673ba117efef951b.svg",
     "static/media/fa-brands-400.svg": "/static/media/fa-brands-400.86064e8fc76a82c2d85d.svg",
     "static/media/trf.png": "/static/media/trf.4ceb0bcfe15d08d65ef1.png",
-    "static/media/tiktok_logo.png": "/static/media/tiktok_logo.bf41765c122d4b0f3fee.png",
+    "static/media/tiktok_logo.png": "/static/media/tiktok_logo.f8087e5ff20c7ca5d388.png",
     "static/media/Montserrat-Regular.ttf": "/static/media/Montserrat-Regular.3cd786652b8a2e9d41f2.ttf",
     "static/media/tifr.png": "/static/media/tifr.abeceee4c6d2eddcbd07.png",
     "static/media/iu_logo.png": "/static/media/iu_logo.5f44628376f5171bea0f.png",
@@ -65,10 +65,10 @@
     "static/media/talksCardBackAlt.svg": "/static/media/talksCardBackAlt.e2c83a0010ec8ea8b649.svg",
     "static/media/talksCardBack.svg": "/static/media/talksCardBack.d197bc988b4159820eac.svg",
     "main.6f1d31fd.css.map": "/static/css/main.6f1d31fd.css.map",
-    "main.6a55bd22.js.map": "/static/js/main.6a55bd22.js.map"
+    "main.b429e6ab.js.map": "/static/js/main.b429e6ab.js.map"
   },
   "entrypoints": [
     "static/css/main.6f1d31fd.css",
-    "static/js/main.6a55bd22.js"
+    "static/js/main.b429e6ab.js"
   ]
 }
