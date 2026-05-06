@@ -894,6 +894,7 @@ body {
 .testimonials__dot.active { background: var(--text); transform: scale(1.4); }
 
 .testimonials__cta { text-align: center; margin-top: 40px; }
+.testimonials__cta--top { margin-top: 0; margin-bottom: 40px; }
 
 /* Responsive community */
 @media (max-width: 960px) {
