@@ -477,10 +477,69 @@
       <!-- Testimonials -->
       <div class="testimonials reveal">
         <h3 class="testimonials__heading">What people say</h3>
+
+        <!-- Source tabs -->
+        <div class="testimonials__tabs">
+          <button class="testimonials__tab active" data-tab="all">All</button>
+          <button class="testimonials__tab" data-tab="linkedin">LinkedIn</button>
+          <button class="testimonials__tab" data-tab="topmate">Topmate</button>
+        </div>
+
         <div class="testimonials__track" id="testimonialsTrack">
 
-          <div class="testimonial-card glass">
+          <!-- LinkedIn recommendations -->
+          <div class="testimonial-card glass" data-source="linkedin">
+            <div class="testimonial-card__source linkedin-badge">in LinkedIn</div>
+            <p class="testimonial-card__text">"Aditya and I joined HSBC at the same time. His zeal and willingness to pick up any new challenging task is really commendable. His expertise on DevOps has really helped the team create an environment for faster and reliable deployments. Apart from this, he's also been active on all fronts, be it organizing events or hosting them!"</p>
+            <div class="testimonial-card__author">
+              <div class="testimonial-card__avatar">KP</div>
+              <div>
+                <p class="testimonial-card__name">Kalindi Parekh</p>
+                <p class="testimonial-card__role">Solutions Architect · AWS · Colleague at HSBC</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card glass" data-source="linkedin">
+            <div class="testimonial-card__source linkedin-badge">in LinkedIn</div>
+            <p class="testimonial-card__text">"Aditya is a very Passionate and Proactive individual who owns his responsibilities and delivers value everyday to his team. He is well organised for all his tasks and quick on solving problems the team is posed with in his area of expertise. Keep learning and stay agile."</p>
+            <div class="testimonial-card__author">
+              <div class="testimonial-card__avatar">KR</div>
+              <div>
+                <p class="testimonial-card__name">Kamal Rathi</p>
+                <p class="testimonial-card__role">Data Engineering Lead · Direct Manager at HSBC</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card glass" data-source="linkedin">
+            <div class="testimonial-card__source linkedin-badge">in LinkedIn</div>
+            <p class="testimonial-card__text">"Aditya is a fast learner. Within a very short time, he became familiar with the tech stack & domain understanding of the ongoing project and started releasing changes onto PRODUCTION. He has a seeker mentality and is willing to learn new things. He made valuable contributions in Jenkins pipelines, Java Adapters, and Cloud infrastructure."</p>
+            <div class="testimonial-card__author">
+              <div class="testimonial-card__avatar">SC</div>
+              <div>
+                <p class="testimonial-card__name">Srinivas Cheruku</p>
+                <p class="testimonial-card__role">Senior SWE · Microsoft · Mentor at HSBC</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card glass" data-source="linkedin">
+            <div class="testimonial-card__source linkedin-badge">in LinkedIn</div>
+            <p class="testimonial-card__text">"Aditya joined us from the Grad Programme in 2019 and within no time made his presence felt — from building unique DevOps dashboards at Markets level to hosting our annual party with nearly 2000+ people. It's amazing to see Aditya display great maturity, balance, and dedication to his career from the beginning. All the best Aditya!"</p>
+            <div class="testimonial-card__author">
+              <div class="testimonial-card__avatar">SM</div>
+              <div>
+                <p class="testimonial-card__name">Santosh Mangipudi</p>
+                <p class="testimonial-card__role">Technology Director · Wells Fargo · Senior at HSBC</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Topmate reviews -->
+          <div class="testimonial-card glass" data-source="topmate">
             <div class="testimonial-card__stars">★★★★★</div>
+            <div class="testimonial-card__source topmate-badge">Topmate</div>
             <p class="testimonial-card__text">"After implementing his suggestions, I received a callback from Meta. His resume review was laser-focused and incredibly practical."</p>
             <div class="testimonial-card__author">
               <div class="testimonial-card__avatar">GM</div>
@@ -491,8 +550,9 @@
             </div>
           </div>
 
-          <div class="testimonial-card glass">
+          <div class="testimonial-card glass" data-source="topmate">
             <div class="testimonial-card__stars">★★★★★</div>
+            <div class="testimonial-card__source topmate-badge">Topmate</div>
             <p class="testimonial-card__text">"The in-depth review came with clear, actionable insights. He went beyond surface feedback and really understood what recruiters look for."</p>
             <div class="testimonial-card__author">
               <div class="testimonial-card__avatar">HT</div>
@@ -503,26 +563,15 @@
             </div>
           </div>
 
-          <div class="testimonial-card glass">
+          <div class="testimonial-card glass" data-source="topmate">
             <div class="testimonial-card__stars">★★★★★</div>
+            <div class="testimonial-card__source topmate-badge">Topmate</div>
             <p class="testimonial-card__text">"His sharp and insightful feedback, combined with genuine patience, made a real difference. Highly recommend booking a session."</p>
             <div class="testimonial-card__author">
               <div class="testimonial-card__avatar">VB</div>
               <div>
                 <p class="testimonial-card__name">Victor Buddha</p>
                 <p class="testimonial-card__role">Mock Interview · Topmate</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="testimonial-card glass">
-            <div class="testimonial-card__stars">★★★★★</div>
-            <p class="testimonial-card__text">"Aditya gave me a completely new perspective on how to frame my experience. My callback rate improved noticeably after our session."</p>
-            <div class="testimonial-card__author">
-              <div class="testimonial-card__avatar">AN</div>
-              <div>
-                <p class="testimonial-card__name">Topmate Member</p>
-                <p class="testimonial-card__role">Resume Review · Topmate</p>
               </div>
             </div>
           </div>

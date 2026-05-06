@@ -386,52 +386,94 @@ window.addEventListener('scroll', () => {
   if (orb3) orb3.style.transform = `translate(-50%, calc(-50% + ${y * 0.04}px)) scale(1)`;
 }, { passive: true });
 
-/* ─── Testimonials Carousel (mobile) ───────────────────────────────────────── */
+/* ─── Testimonials: tabs + mobile carousel ──────────────────────────────────── */
 (function initTestimonials() {
-  const cards   = document.querySelectorAll('.testimonial-card');
-  const dotsEl  = document.getElementById('testimDots');
-  const prevBtn = document.getElementById('testimPrev');
-  const nextBtn = document.getElementById('testimNext');
-  if (!cards.length || !dotsEl) return;
+  const allCards = Array.from(document.querySelectorAll('.testimonial-card'));
+  const dotsEl   = document.getElementById('testimDots');
+  const prevBtn  = document.getElementById('testimPrev');
+  const nextBtn  = document.getElementById('testimNext');
+  const tabs     = document.querySelectorAll('.testimonials__tab');
+  if (!allCards.length || !dotsEl) return;
 
+  let activeFilter = 'all';
   let current = 0;
+  let autoTimer;
 
-  // Build dots
-  cards.forEach((_, i) => {
-    const d = document.createElement('button');
-    d.className = 'testimonials__dot' + (i === 0 ? ' active' : '');
-    d.setAttribute('aria-label', `Testimonial ${i + 1}`);
-    d.addEventListener('click', () => go(i));
-    dotsEl.appendChild(d);
-  });
+  function visibleCards() {
+    return allCards.filter(c =>
+      activeFilter === 'all' || c.dataset.source === activeFilter
+    );
+  }
+
+  function buildDots(cards) {
+    dotsEl.innerHTML = '';
+    cards.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'testimonials__dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', `Testimonial ${i + 1}`);
+      d.addEventListener('click', () => go(i));
+      dotsEl.appendChild(d);
+    });
+  }
 
   function go(idx) {
-    cards[current].classList.remove('active');
-    dotsEl.children[current].classList.remove('active');
+    const cards = visibleCards();
+    if (!cards.length) return;
     current = (idx + cards.length) % cards.length;
-    cards[current].classList.add('active');
-    dotsEl.children[current].classList.add('active');
+    if (window.innerWidth <= 960) {
+      allCards.forEach(c => c.classList.remove('active'));
+      cards[current].classList.add('active');
+      Array.from(dotsEl.children).forEach((d, i) =>
+        d.classList.toggle('active', i === current)
+      );
+    }
   }
 
-  // Set initial active on mobile
+  function applyFilter() {
+    const cards = visibleCards();
+    current = 0;
+    // Desktop: show/hide, no carousel
+    const isMobile = window.innerWidth <= 960;
+    allCards.forEach(c => {
+      const visible = activeFilter === 'all' || c.dataset.source === activeFilter;
+      c.style.display = visible ? '' : 'none';
+      c.classList.remove('active');
+    });
+    if (isMobile && cards.length) cards[0].classList.add('active');
+    buildDots(cards);
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => {
+      if (window.innerWidth <= 960) go(current + 1);
+    }, 4000);
+  }
+
   function setMobileState() {
     const isMobile = window.innerWidth <= 960;
-    cards.forEach((c, i) => {
-      c.classList.toggle('active', isMobile ? i === current : false);
-    });
     document.querySelector('.testimonials__controls').style.display = isMobile ? 'flex' : 'none';
+    if (!isMobile) {
+      allCards.forEach(c => c.classList.remove('active'));
+    } else {
+      const cards = visibleCards();
+      allCards.forEach(c => c.classList.remove('active'));
+      if (cards[current]) cards[current].classList.add('active');
+    }
   }
 
+  // Tab clicks
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeFilter = tab.dataset.tab;
+      applyFilter();
+    });
+  });
+
+  applyFilter();
   setMobileState();
   window.addEventListener('resize', setMobileState, { passive: true });
-
   prevBtn.addEventListener('click', () => go(current - 1));
   nextBtn.addEventListener('click', () => go(current + 1));
-
-  // Auto-advance every 4s
-  setInterval(() => {
-    if (window.innerWidth <= 960) go(current + 1);
-  }, 4000);
 })();
 
 /* ─── Smooth active nav link highlighting ──────────────────────────────────── */
