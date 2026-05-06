@@ -144,7 +144,7 @@ body {
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 /* nav track wraps pill + links with shared coordinate space */
 .nav__track {
@@ -962,6 +962,7 @@ body {
 /* Mobile */
 @media (max-width: 680px) {
   /* Nav */
+  .nav__inner { justify-content: flex-end; }
   .nav__track   { display: none; }
   .nav__pill    { display: none; }
   .nav__hamburger { display: flex; }

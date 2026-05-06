@@ -480,13 +480,28 @@ window.addEventListener('scroll', () => {
   const linksUl  = document.querySelector('.nav__links');
   if (!pill || !navLinks.length) return;
 
+  let pillReady = false;
+
   function movePill(link) {
     if (!link) { pill.style.opacity = '0'; return; }
     const trackRect = pill.parentElement.getBoundingClientRect();
     const linkRect  = link.getBoundingClientRect();
-    pill.style.opacity = '1';
-    pill.style.left    = (linkRect.left - trackRect.left) + 'px';
-    pill.style.width   = linkRect.width + 'px';
+    const left  = (linkRect.left - trackRect.left) + 'px';
+    const width = linkRect.width + 'px';
+    if (!pillReady) {
+      // Place without transition on first show so it doesn't slide from left: 0
+      pill.style.transition = 'none';
+      pill.style.left  = left;
+      pill.style.width = width;
+      pill.style.opacity = '1';
+      pill.offsetWidth; // force reflow before re-enabling transition
+      pill.style.transition = '';
+      pillReady = true;
+    } else {
+      pill.style.left  = left;
+      pill.style.width = width;
+      pill.style.opacity = '1';
+    }
   }
 
   function setActive(id) {
