@@ -473,18 +473,45 @@ window.addEventListener('scroll', () => {
   window.addEventListener('resize', syncMobile, { passive: true });
 })();
 
-/* ─── Smooth active nav link highlighting ──────────────────────────────────── */
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav__links a[href^="#"]');
+/* ─── Sliding nav pill ──────────────────────────────────────────────────────── */
+(function initNavPill() {
+  const pill     = document.getElementById('navPill');
+  const navLinks = document.querySelectorAll('.nav__links a[data-section]');
+  const linksUl  = document.querySelector('.nav__links');
+  if (!pill || !navLinks.length) return;
 
-const sectionObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(l => l.classList.remove('active'));
-      const active = document.querySelector(`.nav__links a[href="#${entry.target.id}"]`);
-      if (active) active.classList.add('active');
-    }
-  });
-}, { threshold: 0.4 });
+  function movePill(link) {
+    if (!link) { pill.style.opacity = '0'; return; }
+    const ulRect   = linksUl.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    pill.style.opacity = '1';
+    pill.style.left    = (linkRect.left - ulRect.left) + 'px';
+    pill.style.width   = linkRect.width + 'px';
+  }
 
-sections.forEach(s => sectionObserver.observe(s));
+  function setActive(id) {
+    navLinks.forEach(l => l.classList.remove('nav-active'));
+    const active = document.querySelector(`.nav__links a[data-section="${id}"]`);
+    if (active) { active.classList.add('nav-active'); movePill(active); }
+    else pill.style.opacity = '0';
+  }
+
+  // Scroll spy
+  const sections = Array.from(document.querySelectorAll('section[id]'))
+    .filter(s => document.querySelector(`.nav__links a[data-section="${s.id}"]`));
+
+  function onScroll() {
+    const scrollY = window.scrollY + window.innerHeight * 0.35;
+    let current = null;
+    sections.forEach(s => { if (s.offsetTop <= scrollY) current = s.id; });
+    setActive(current);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => {
+    const active = document.querySelector('.nav__links a.nav-active');
+    movePill(active || null);
+  }, { passive: true });
+
+  onScroll();
+})();
