@@ -396,7 +396,7 @@ window.addEventListener('scroll', () => {
   const tabs       = document.querySelectorAll('.testimonials__tab');
   if (!allCards.length || !dotsEl) return;
 
-  let activeFilter = 'all';
+  let activeFilter = 'linkedin';
   let current = 0;
   let autoTimer;
 
