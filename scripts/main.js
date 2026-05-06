@@ -482,10 +482,10 @@ window.addEventListener('scroll', () => {
 
   function movePill(link) {
     if (!link) { pill.style.opacity = '0'; return; }
-    const ulRect   = linksUl.getBoundingClientRect();
-    const linkRect = link.getBoundingClientRect();
+    const trackRect = pill.parentElement.getBoundingClientRect();
+    const linkRect  = link.getBoundingClientRect();
     pill.style.opacity = '1';
-    pill.style.left    = (linkRect.left - ulRect.left) + 'px';
+    pill.style.left    = (linkRect.left - trackRect.left) + 'px';
     pill.style.width   = linkRect.width + 'px';
   }
 
