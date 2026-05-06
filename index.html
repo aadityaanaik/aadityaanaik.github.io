@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aditya Naik — Data Engineer</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__logo">AN</a>
+      <ul class="nav__links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="mailto:theadityanaik@gmail.com" class="nav__cta">Contact</a></li>
+      </ul>
+      <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#experience" class="mobile-link">Experience</a></li>
+      <li><a href="#projects" class="mobile-link">Projects</a></li>
+      <li><a href="#skills" class="mobile-link">Skills</a></li>
+      <li><a href="mailto:theadityanaik@gmail.com" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero__bg">
+      <div class="hero__orb hero__orb--1"></div>
+      <div class="hero__orb hero__orb--2"></div>
+      <div class="hero__orb hero__orb--3"></div>
+    </div>
+    <div class="hero__content">
+      <p class="hero__eyebrow reveal">Seattle, WA</p>
+      <h1 class="hero__title reveal">
+        <span class="hero__title-line">Aditya</span>
+        <span class="hero__title-line hero__title-line--grad">Naik</span>
+      </h1>
+      <p class="hero__subtitle reveal">
+        Senior Data Engineer · Petabyte-scale infrastructure ·<br />
+        <strong>$6M+</strong> in annual cost savings
+      </p>
+      <div class="hero__actions reveal">
+        <a href="#experience" class="btn btn--primary">View Work</a>
+        <a href="mailto:theadityanaik@gmail.com" class="btn btn--ghost">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero__scroll-hint">
+      <span>Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- STATS BAND -->
+  <section class="stats">
+    <div class="stats__inner">
+      <div class="stat reveal">
+        <span class="stat__num" data-target="5">0</span><span class="stat__unit">+</span>
+        <p class="stat__label">Years Experience</p>
+      </div>
+      <div class="stat reveal">
+        <span class="stat__num" data-target="6">0</span><span class="stat__unit">M+</span>
+        <p class="stat__label">Annual Cost Savings</p>
+      </div>
+      <div class="stat reveal">
+        <span class="stat__num" data-target="1.5">0</span><span class="stat__unit">B</span>
+        <p class="stat__label">Records Processed</p>
+      </div>
+      <div class="stat reveal">
+        <span class="stat__num" data-target="100">0</span><span class="stat__unit">TB+</span>
+        <p class="stat__label">Data Migrated</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about section" id="about">
+    <div class="container">
+      <div class="section-label reveal">About</div>
+      <div class="about__grid">
+        <div class="about__text">
+          <h2 class="section-title reveal">
+            Building systems that<br /><span class="grad-text">scale, heal, and deliver.</span>
+          </h2>
+          <p class="about__body reveal">
+            I'm a Senior Data Engineer with 5+ years specializing in reliability engineering
+            for petabyte-scale data and ML platforms. I build self-healing infrastructure that
+            keeps systems running—and costs down—across distributed environments using
+            Spark, Flink, Airflow, and cloud-native tooling.
+          </p>
+          <p class="about__body reveal">
+            Currently at <strong>TikTok</strong>, I architect data pipelines and auto-remediation systems
+            that have eradicated SLA breaches and mitigated millions in fraudulent payouts.
+            Previously at <strong>HSBC</strong>, I led hybrid-cloud migrations of 100TB+ financial trade data.
+          </p>
+          <div class="about__links reveal">
+            <a href="mailto:theadityanaik@gmail.com" class="chip">✉ theadityanaik@gmail.com</a>
+            <a href="https://linkedin.com/in/aadityaanaik" target="_blank" class="chip">in LinkedIn</a>
+            <a href="https://github.com/aadityaanaik" target="_blank" class="chip">⌥ GitHub</a>
+          </div>
+        </div>
+        <div class="about__cards reveal">
+          <div class="about__card glass">
+            <div class="about__card-icon">🎓</div>
+            <div>
+              <p class="about__card-title">Texas A&amp;M University</p>
+              <p class="about__card-sub">MS · Management Information Systems</p>
+              <p class="about__card-date">2022 – 2024</p>
+            </div>
+          </div>
+          <div class="about__card glass">
+            <div class="about__card-icon">🎓</div>
+            <div>
+              <p class="about__card-title">Vishwakarma Institute of Technology</p>
+              <p class="about__card-sub">BTech · Computer Science</p>
+              <p class="about__card-date">2015 – 2019</p>
+            </div>
+          </div>
+          <div class="about__card glass">
+            <div class="about__card-icon">🏅</div>
+            <div>
+              <p class="about__card-title">AWS Certified Developer</p>
+              <p class="about__card-sub">Amazon Web Services</p>
+            </div>
+          </div>
+          <div class="about__card glass">
+            <div class="about__card-icon">🏅</div>
+            <div>
+              <p class="about__card-title">Professional Scrum Master</p>
+              <p class="about__card-sub">Scrum.org</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience section" id="experience">
+    <div class="container">
+      <div class="section-label reveal">Experience</div>
+      <h2 class="section-title reveal">Where I've <span class="grad-text">made an impact.</span></h2>
+
+      <div class="timeline">
+
+        <!-- TikTok -->
+        <div class="timeline__item reveal">
+          <div class="timeline__dot"></div>
+          <div class="timeline__card glass">
+            <div class="timeline__header">
+              <div>
+                <h3 class="timeline__company">TikTok</h3>
+                <p class="timeline__role">Data Engineer II</p>
+              </div>
+              <div class="timeline__meta">
+                <span class="timeline__period">Oct 2024 – Present</span>
+                <div class="timeline__tags">
+                  <span class="tag">Spark</span>
+                  <span class="tag">Hive</span>
+                  <span class="tag">Airflow</span>
+                  <span class="tag">SQL</span>
+                  <span class="tag">Tableau</span>
+                </div>
+              </div>
+            </div>
+            <ul class="timeline__bullets">
+              <li>Architected enterprise ticketing system migration, saving <strong>$150K annually</strong> via an idempotent PySpark engine processing <strong>1.5B records</strong> with 0 data discrepancies.</li>
+              <li>Reduced daily processing volumes by <strong>80%</strong> via self-healing, incremental pipelines with GDPR/CCPA compliance and KMS encryption.</li>
+              <li>Eradicated <strong>30% of SLA breaches</strong> with an Airflow-orchestrated auto-remediation system evaluating 100K+ dependencies in &lt;2 minutes using API batching and Redis.</li>
+              <li>Saved <strong>~$1M annually</strong> in on-call triage costs via stateful step-function alerting across 10 self-onboarded teams via a no-code configuration framework.</li>
+              <li>Mitigated <strong>$2.5M in fraudulent payouts</strong> by architecting item-level risk-control engines and automating inauthentic engagement detection.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- HSBC -->
+        <div class="timeline__item reveal">
+          <div class="timeline__dot"></div>
+          <div class="timeline__card glass">
+            <div class="timeline__header">
+              <div>
+                <h3 class="timeline__company">HSBC</h3>
+                <p class="timeline__role">Data Engineer II</p>
+              </div>
+              <div class="timeline__meta">
+                <span class="timeline__period">Jul 2019 – Jul 2022</span>
+                <div class="timeline__tags">
+                  <span class="tag">Kafka</span>
+                  <span class="tag">Flink</span>
+                  <span class="tag">AWS</span>
+                  <span class="tag">Redshift</span>
+                  <span class="tag">S3</span>
+                </div>
+              </div>
+            </div>
+            <ul class="timeline__bullets">
+              <li>Eliminated <strong>$140K annual licensing fees</strong> via hybrid-cloud migration of <strong>100TB+</strong> financial trade data from legacy OMS to AWS with Flink on EMR and Kafka.</li>
+              <li>Empowered <strong>150+ global teams</strong> with centralized real-time analytics via a Redshift data warehouse and S3 data lake architecture.</li>
+              <li>Ensured <strong>100% data integrity</strong> for regulatory reporting through automated quality checks and IAM-controlled access for sensitive trade datasets.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="projects section" id="projects">
+    <div class="container">
+      <div class="section-label reveal">Projects</div>
+      <h2 class="section-title reveal">Things I've <span class="grad-text">built.</span></h2>
+
+      <div class="projects__grid">
+
+        <div class="project-card glass reveal">
+          <div class="project-card__top">
+            <span class="project-card__icon">📊</span>
+            <a href="https://github.com/aadityaanaik" target="_blank" class="project-card__link">↗</a>
+          </div>
+          <h3 class="project-card__title">Expense Management Dashboard</h3>
+          <p class="project-card__desc">End-to-end ETL and visualization tool that extracts payment data from emails, builds a Postgres transactions database, and visualizes spending by time, card, merchant, and category via LLAMA API.</p>
+          <div class="project-card__tags">
+            <span class="tag">Grafana</span>
+            <span class="tag">LLAMA</span>
+            <span class="tag">Postgres</span>
+            <span class="tag">ETL</span>
+          </div>
+        </div>
+
+        <div class="project-card glass reveal">
+          <div class="project-card__top">
+            <span class="project-card__icon">💧</span>
+            <a href="https://github.com/aadityaanaik" target="_blank" class="project-card__link">↗</a>
+          </div>
+          <h3 class="project-card__title">AI Water Intake Monitor</h3>
+          <p class="project-card__desc">IoT data pipeline ingesting wrist-motion events from Apple Watch at 50 Hz via CoreMotion, relaying batched drink events through a FastAPI backend and Supabase for real-time behavioral sensor data.</p>
+          <div class="project-card__tags">
+            <span class="tag">LLAMA</span>
+            <span class="tag">Supabase</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">IoT</span>
+          </div>
+        </div>
+
+        <div class="project-card glass reveal">
+          <div class="project-card__top">
+            <span class="project-card__icon">✉️</span>
+            <a href="https://github.com/aadityaanaik/Mass-Email-Careershift-Contacts" target="_blank" class="project-card__link">↗</a>
+          </div>
+          <h3 class="project-card__title">Automated Bulk Email Outreach</h3>
+          <p class="project-card__desc">Python-Azure pipeline using Selenium and Airflow to scrape recruiter contacts and trigger personalized email outreach—processed 13,000 contacts with a 12% response rate over four weeks.</p>
+          <div class="project-card__tags">
+            <span class="tag">Airflow</span>
+            <span class="tag">Azure</span>
+            <span class="tag">Selenium</span>
+            <span class="tag">Python</span>
+          </div>
+        </div>
+
+        <div class="project-card glass reveal">
+          <div class="project-card__top">
+            <span class="project-card__icon">🏪</span>
+            <a href="https://github.com/aadityaanaik/Retail-Market-DWH" target="_blank" class="project-card__link">↗</a>
+          </div>
+          <h3 class="project-card__title">Retail Market Data Warehouse</h3>
+          <p class="project-card__desc">End-to-end data warehouse pipeline for retail market analytics — ingestion, transformation, and dimensional modeling in Jupyter, enabling business intelligence reporting across product, sales, and customer data.</p>
+          <div class="project-card__tags">
+            <span class="tag">Python</span>
+            <span class="tag">Jupyter</span>
+            <span class="tag">DWH</span>
+            <span class="tag">ETL</span>
+          </div>
+        </div>
+
+        <div class="project-card glass reveal">
+          <div class="project-card__top">
+            <span class="project-card__icon">🗄️</span>
+            <a href="https://github.com/aadityaanaik/SQL-Web-Interface" target="_blank" class="project-card__link">↗</a>
+          </div>
+          <h3 class="project-card__title">SQL Web Interface</h3>
+          <p class="project-card__desc">Browser-based SQL interface built in PHP, enabling query execution, result visualization, and database exploration directly from the web — no local tooling required.</p>
+          <div class="project-card__tags">
+            <span class="tag">PHP</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Web</span>
+          </div>
+        </div>
+
+        <div class="project-card glass reveal">
+          <div class="project-card__top">
+            <span class="project-card__icon">💬</span>
+            <a href="https://github.com/aadityaanaik" target="_blank" class="project-card__link">↗</a>
+          </div>
+          <h3 class="project-card__title">Online Q&amp;A Forum on AWS</h3>
+          <p class="project-card__desc">Scalable microservices Q&amp;A platform using DynamoDB and S3 for storage, Redis for caching, and Lambda for compute—cut deployment time 45% with Terraform, supporting 90 GB of data for 3,000+ users.</p>
+          <div class="project-card__tags">
+            <span class="tag">AWS</span>
+            <span class="tag">DynamoDB</span>
+            <span class="tag">Redis</span>
+            <span class="tag">Terraform</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="skills section" id="skills">
+    <div class="container">
+      <div class="section-label reveal">Skills</div>
+      <h2 class="section-title reveal">The <span class="grad-text">full stack</span> I work with.</h2>
+
+      <div class="skills__grid">
+
+        <div class="skill-group glass reveal">
+          <h4 class="skill-group__title">Languages</h4>
+          <div class="skill-group__pills">
+            <span class="pill">SQL</span>
+            <span class="pill">Python</span>
+            <span class="pill">Java</span>
+            <span class="pill">Scala</span>
+            <span class="pill">Bash</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">Groovy</span>
+          </div>
+        </div>
+
+        <div class="skill-group glass reveal">
+          <h4 class="skill-group__title">Big Data &amp; Streaming</h4>
+          <div class="skill-group__pills">
+            <span class="pill">Spark</span>
+            <span class="pill">Flink</span>
+            <span class="pill">Kafka</span>
+            <span class="pill">Airflow</span>
+            <span class="pill">Hadoop</span>
+            <span class="pill">HDFS</span>
+            <span class="pill">MapReduce</span>
+          </div>
+        </div>
+
+        <div class="skill-group glass reveal">
+          <h4 class="skill-group__title">Cloud Platforms</h4>
+          <div class="skill-group__pills">
+            <span class="pill">AWS</span>
+            <span class="pill">GCP</span>
+            <span class="pill">Oracle Cloud</span>
+            <span class="pill">Redshift</span>
+            <span class="pill">EMR</span>
+            <span class="pill">Glue</span>
+            <span class="pill">BigQuery</span>
+          </div>
+        </div>
+
+        <div class="skill-group glass reveal">
+          <h4 class="skill-group__title">Databases</h4>
+          <div class="skill-group__pills">
+            <span class="pill">Postgres</span>
+            <span class="pill">MySQL</span>
+            <span class="pill">MongoDB</span>
+            <span class="pill">DynamoDB</span>
+            <span class="pill">Cassandra</span>
+            <span class="pill">Snowflake</span>
+            <span class="pill">ClickHouse</span>
+          </div>
+        </div>
+
+        <div class="skill-group glass reveal">
+          <h4 class="skill-group__title">BI &amp; Observability</h4>
+          <div class="skill-group__pills">
+            <span class="pill">Tableau</span>
+            <span class="pill">Power BI</span>
+            <span class="pill">Grafana</span>
+            <span class="pill">Looker</span>
+            <span class="pill">Databricks</span>
+          </div>
+        </div>
+
+        <div class="skill-group glass reveal">
+          <h4 class="skill-group__title">DevOps &amp; Infra</h4>
+          <div class="skill-group__pills">
+            <span class="pill">Docker</span>
+            <span class="pill">Kubernetes</span>
+            <span class="pill">Terraform</span>
+            <span class="pill">Jenkins</span>
+            <span class="pill">Git</span>
+            <span class="pill">JIRA</span>
+            <span class="pill">Linux</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER / CTA -->
+  <footer class="footer">
+    <div class="footer__orb"></div>
+    <div class="container footer__inner">
+      <h2 class="footer__title reveal">Let's build something<br /><span class="grad-text">remarkable.</span></h2>
+      <a href="mailto:theadityanaik@gmail.com" class="btn btn--primary btn--lg reveal">theadityanaik@gmail.com</a>
+      <div class="footer__links reveal">
+        <a href="https://linkedin.com/in/aadityaanaik" target="_blank">LinkedIn</a>
+        <span>·</span>
+        <a href="https://github.com/aadityaanaik" target="_blank">GitHub</a>
+        <span>·</span>
+        <a href="tel:9796338551">979-633-8551</a>
+      </div>
+      <p class="footer__copy">© 2025 Aditya Naik. Built with care.</p>
+    </div>
+  </footer>
+
+  <script src="scripts/main.js"></script>
+</body>
+</html>
