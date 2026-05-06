@@ -84,17 +84,17 @@ document.querySelectorAll('.stat').forEach(s => statObserver.observe(s));
   });
   hero.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
 
-  const COLORS = ['rgba(41,151,255,', 'rgba(191,90,242,', 'rgba(48,209,88,', 'rgba(255,255,255,'];
+  const COLORS = ['rgba(41,151,255,', 'rgba(191,90,242,', 'rgba(48,209,88,', 'rgba(255,255,255,', 'rgba(255,159,10,', 'rgba(100,210,255,'];
 
-  for (let i = 0; i < 90; i++) {
+  for (let i = 0; i < 220; i++) {
     const color = COLORS[Math.floor(Math.random() * COLORS.length)];
     particles.push({
-      x: Math.random() * 1200,
-      y: Math.random() * 800,
-      r: Math.random() * 2.2 + 0.4,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      baseAlpha: Math.random() * 0.5 + 0.1,
+      x: Math.random() * 1600,
+      y: Math.random() * 900,
+      r: Math.random() * 2.8 + 0.5,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      baseAlpha: Math.random() * 0.65 + 0.15,
       color,
     });
   }
@@ -132,12 +132,12 @@ document.querySelectorAll('.stat').forEach(s => statObserver.observe(s));
         const dx = particles[i].x - particles[j].x;
         const dy = particles[i].y - particles[j].y;
         const d = Math.sqrt(dx * dx + dy * dy);
-        if (d < 100) {
+        if (d < 140) {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(255,255,255,${0.06 * (1 - d / 100)})`;
-          ctx.lineWidth = 0.5;
+          ctx.strokeStyle = `rgba(255,255,255,${0.12 * (1 - d / 140)})`;
+          ctx.lineWidth = 0.6;
           ctx.stroke();
         }
       }
