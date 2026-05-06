@@ -388,21 +388,20 @@ window.addEventListener('scroll', () => {
 
 /* ─── Testimonials: tabs + mobile carousel ──────────────────────────────────── */
 (function initTestimonials() {
-  const allCards = Array.from(document.querySelectorAll('.testimonial-card'));
-  const dotsEl   = document.getElementById('testimDots');
-  const prevBtn  = document.getElementById('testimPrev');
-  const nextBtn  = document.getElementById('testimNext');
-  const tabs     = document.querySelectorAll('.testimonials__tab');
+  const allCards   = Array.from(document.querySelectorAll('.tcard'));
+  const dotsEl     = document.getElementById('testimDots');
+  const prevBtn    = document.getElementById('testimPrev');
+  const nextBtn    = document.getElementById('testimNext');
+  const controlsEl = document.getElementById('testimControls');
+  const tabs       = document.querySelectorAll('.testimonials__tab');
   if (!allCards.length || !dotsEl) return;
 
   let activeFilter = 'all';
   let current = 0;
   let autoTimer;
 
-  function visibleCards() {
-    return allCards.filter(c =>
-      activeFilter === 'all' || c.dataset.source === activeFilter
-    );
+  function filteredCards() {
+    return allCards.filter(c => activeFilter === 'all' || c.dataset.source === activeFilter);
   }
 
   function buildDots(cards) {
@@ -417,63 +416,61 @@ window.addEventListener('scroll', () => {
   }
 
   function go(idx) {
-    const cards = visibleCards();
+    const cards = filteredCards();
     if (!cards.length) return;
     current = (idx + cards.length) % cards.length;
-    if (window.innerWidth <= 960) {
-      allCards.forEach(c => c.classList.remove('active'));
-      cards[current].classList.add('active');
-      Array.from(dotsEl.children).forEach((d, i) =>
-        d.classList.toggle('active', i === current)
-      );
-    }
+    allCards.forEach(c => c.classList.remove('carousel-active'));
+    cards[current].classList.add('carousel-active');
+    Array.from(dotsEl.children).forEach((d, i) =>
+      d.classList.toggle('active', i === current)
+    );
   }
 
   function applyFilter() {
-    const cards = visibleCards();
     current = 0;
-    // Desktop: show/hide, no carousel
+    const cards = filteredCards();
     const isMobile = window.innerWidth <= 960;
+
     allCards.forEach(c => {
-      const visible = activeFilter === 'all' || c.dataset.source === activeFilter;
-      c.style.display = visible ? '' : 'none';
-      c.classList.remove('active');
+      const inFilter = activeFilter === 'all' || c.dataset.source === activeFilter;
+      c.style.display = inFilter ? '' : 'none';
+      c.classList.remove('carousel-active');
     });
-    if (isMobile && cards.length) cards[0].classList.add('active');
+
+    if (isMobile && cards.length) cards[0].classList.add('carousel-active');
     buildDots(cards);
+
     clearInterval(autoTimer);
     autoTimer = setInterval(() => {
       if (window.innerWidth <= 960) go(current + 1);
-    }, 4000);
+    }, 4500);
   }
 
-  function setMobileState() {
+  function syncMobile() {
     const isMobile = window.innerWidth <= 960;
-    document.querySelector('.testimonials__controls').style.display = isMobile ? 'flex' : 'none';
-    if (!isMobile) {
-      allCards.forEach(c => c.classList.remove('active'));
-    } else {
-      const cards = visibleCards();
-      allCards.forEach(c => c.classList.remove('active'));
-      if (cards[current]) cards[current].classList.add('active');
+    if (controlsEl) controlsEl.style.display = isMobile ? 'flex' : 'none';
+    if (!isMobile) allCards.forEach(c => c.classList.remove('carousel-active'));
+    else {
+      const cards = filteredCards();
+      allCards.forEach(c => c.classList.remove('carousel-active'));
+      if (cards[current]) cards[current].classList.add('carousel-active');
     }
   }
 
-  // Tab clicks
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      activeFilter = tab.dataset.tab;
-      applyFilter();
-    });
-  });
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeFilter = tab.dataset.tab;
+    applyFilter();
+    syncMobile();
+  }));
+
+  if (prevBtn) prevBtn.addEventListener('click', () => go(current - 1));
+  if (nextBtn) nextBtn.addEventListener('click', () => go(current + 1));
 
   applyFilter();
-  setMobileState();
-  window.addEventListener('resize', setMobileState, { passive: true });
-  prevBtn.addEventListener('click', () => go(current - 1));
-  nextBtn.addEventListener('click', () => go(current + 1));
+  syncMobile();
+  window.addEventListener('resize', syncMobile, { passive: true });
 })();
 
 /* ─── Smooth active nav link highlighting ──────────────────────────────────── */
