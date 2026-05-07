@@ -60,15 +60,15 @@ const statObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.stat').forEach(s => statObserver.observe(s));
 
-/* ─── Hero Particle Canvas ──────────────────────────────────────────────────── */
-(function initParticles() {
+/* ─── Hero Quote Canvas ──────────────────────────────────────────────────────── */
+(function initHeroQuotes() {
   const hero = document.querySelector('.hero');
   const canvas = document.createElement('canvas');
   canvas.id = 'particles-canvas';
   hero.appendChild(canvas);
   const ctx = canvas.getContext('2d');
 
-  let W, H, particles = [], mouse = { x: -9999, y: -9999 };
+  let W, H, mouse = { x: -9999, y: -9999 };
 
   function resize() {
     W = canvas.width  = hero.offsetWidth;
@@ -83,65 +83,108 @@ document.querySelectorAll('.stat').forEach(s => statObserver.observe(s));
     mouse.y = e.clientY - r.top;
   });
   hero.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+  hero.addEventListener('touchmove', e => {
+    const r = hero.getBoundingClientRect();
+    mouse.x = e.touches[0].clientX - r.left;
+    mouse.y = e.touches[0].clientY - r.top;
+  }, { passive: true });
+  hero.addEventListener('touchend', () => { mouse.x = -9999; mouse.y = -9999; });
 
-  const COLORS = ['rgba(41,151,255,', 'rgba(191,90,242,', 'rgba(48,209,88,', 'rgba(255,255,255,', 'rgba(255,159,10,', 'rgba(100,210,255,'];
+  // Key phrases drawn from real recommendations and career impact
+  const PHRASES = [
+    // LinkedIn recommendations
+    'zeal & willingness to take on challenges',
+    'incredibly commendable',
+    'passionate and proactive',
+    'owns his responsibilities',
+    'quick on solving problems',
+    'fast learner',
+    'seeker mentality',
+    'great maturity & dedication',
+    'made his presence felt',
+    'faster, reliable deployments',
+    'unique DevOps dashboards',
+    'value delivered everyday',
+    // Topmate reviews
+    'received a callback from Meta ★★★★★',
+    'highly recommend',
+    'sharp, insightful feedback',
+    'didn\'t rush through any part',
+    'clarity and thoughtful suggestions',
+    'valuable mock interview feedback',
+    'friendly and motivating',
+    'understands your situation first',
+    'broader, realistic understanding',
+    '★★★★★',
+    // Career numbers
+    '1.5B records · zero discrepancies',
+    '$150K saved annually',
+    '30% fewer SLA breaches',
+    '$2.5M fraud mitigated',
+    '100TB+ migrated to cloud',
+    '150+ global teams empowered',
+    '80% processing reduction',
+    // Tech
+    'PySpark · Hive · Airflow',
+    'Kafka · Flink · AWS',
+    'Redshift · S3 · Spark',
+    'GDPR · CCPA compliant',
+    'self-healing pipelines',
+    'real-time analytics at scale',
+  ];
 
-  for (let i = 0; i < 220; i++) {
-    const color = COLORS[Math.floor(Math.random() * COLORS.length)];
-    particles.push({
-      x: Math.random() * 1600,
-      y: Math.random() * 900,
-      r: Math.random() * 2.8 + 0.5,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      baseAlpha: Math.random() * 0.65 + 0.15,
-      color,
-    });
-  }
+  const quoteParticles = PHRASES.map(text => {
+    const big = /\$|records|teams|fraud|★/.test(text);
+    return {
+      text,
+      x: Math.random() * (W || 1400),
+      y: Math.random() * (H || 900),
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      size: big ? (Math.random() * 3 + 13) : (Math.random() * 4 + 10),
+      alpha: Math.random() * 0.13 + 0.05,
+      weight: big ? '600' : '400',
+    };
+  });
+
+  const REPEL = 180;
+  const MAX_SPEED = 5;
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
-    particles.forEach(p => {
+
+    quoteParticles.forEach(p => {
       const dx = p.x - mouse.x;
       const dy = p.y - mouse.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      const repel = 120;
-      if (dist < repel) {
-        const force = (repel - dist) / repel;
-        p.vx += (dx / dist) * force * 1.2;
-        p.vy += (dy / dist) * force * 1.2;
+      if (dist < REPEL && dist > 0) {
+        const force = ((REPEL - dist) / REPEL) * 2.2;
+        p.vx += (dx / dist) * force;
+        p.vy += (dy / dist) * force;
       }
-      p.vx *= 0.98;
-      p.vy *= 0.98;
+
+      p.vx *= 0.965;
+      p.vy *= 0.965;
+
+      const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+      if (speed > MAX_SPEED) {
+        p.vx = (p.vx / speed) * MAX_SPEED;
+        p.vy = (p.vy / speed) * MAX_SPEED;
+      }
+
       p.x += p.vx;
       p.y += p.vy;
-      if (p.x < 0)  p.x = W;
-      if (p.x > W)  p.x = 0;
-      if (p.y < 0)  p.y = H;
-      if (p.y > H)  p.y = 0;
 
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color + p.baseAlpha + ')';
-      ctx.fill();
+      // Wrap around with text-width margin
+      if (p.x < -300) p.x = W + 150;
+      if (p.x > W + 300) p.x = -150;
+      if (p.y < -40)  p.y = H + 20;
+      if (p.y > H + 40) p.y = -20;
+
+      ctx.font = `${p.weight} ${p.size}px -apple-system, BlinkMacSystemFont, sans-serif`;
+      ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
+      ctx.fillText(p.text, p.x, p.y);
     });
-
-    // Draw connections
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if (d < 140) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(255,255,255,${0.12 * (1 - d / 140)})`;
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
-        }
-      }
-    }
 
     requestAnimationFrame(draw);
   }
