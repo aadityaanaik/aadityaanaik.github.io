@@ -354,15 +354,14 @@ body {
 .hero__social-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 980px;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   border: 1px solid rgba(255,255,255,0.15);
   background: rgba(255,255,255,0.06);
   color: rgba(255,255,255,0.7) !important;
   text-decoration: none !important;
-  font-size: 14px;
-  font-weight: 500;
   transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s var(--ease-spring);
 }
 .hero__social-link:hover {
@@ -979,7 +978,7 @@ body {
   .hero__cta-label { font-size: 16px; }
   .btn--lg      { padding: 14px 24px; font-size: 15px; }
   .hero__cta-links { gap: 10px; }
-  .hero__social-link { padding: 8px 16px; font-size: 13px; }
+  .hero__social-link { width: 40px; height: 40px; }
 
   /* Stats */
   .stats        { padding: 48px 20px; }
