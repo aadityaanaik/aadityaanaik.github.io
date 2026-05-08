@@ -474,13 +474,25 @@ document.querySelectorAll('.stat').forEach(s => statObserver.observe(s));
   }, 100);
 })();
 
-/* ─── Parallax Hero Orbs on Scroll ─────────────────────────────────────────── */
+/* ─── Hero Exit + Parallax (runs in all browsers) ───────────────────────────── */
 const orb1 = document.querySelector('.hero__orb--1');
 const orb2 = document.querySelector('.hero__orb--2');
 const orb3 = document.querySelector('.hero__orb--3');
+const heroContent = document.querySelector('.hero__content');
 
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
+
+  // Hero content fades, scales, and drifts up as you scroll away — JS fallback
+  // (CSS Scroll Timeline handles this in Chrome; this covers all other browsers)
+  if (heroContent && !sScrollTimeline) {
+    const progress = Math.min(y / 600, 1);
+    const eased = 1 - Math.pow(1 - progress, 2); // ease-in quad
+    heroContent.style.opacity = 1 - eased;
+    heroContent.style.transform = `scale(${1 - eased * 0.12}) translateY(${-eased * 80}px)`;
+    heroContent.style.filter = `blur(${eased * 12}px)`;
+  }
+
   if (orb1) orb1.style.transform = `translate(${y * 0.06}px, ${y * 0.1}px) scale(1)`;
   if (orb2) orb2.style.transform = `translate(${-y * 0.06}px, ${-y * 0.08}px) scale(1)`;
   if (orb3) orb3.style.transform = `translate(-50%, calc(-50% + ${y * 0.04}px)) scale(1)`;
