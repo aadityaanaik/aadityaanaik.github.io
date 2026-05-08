@@ -73,8 +73,9 @@ document.querySelectorAll('.stat').forEach(s => statObserver.observe(s));
   function resize() {
     W = canvas.width  = hero.offsetWidth;
     H = canvas.height = hero.offsetHeight;
+    // Re-measure text widths on resize
+    particles.forEach(p => { p.tw = 0; });
   }
-  resize();
   window.addEventListener('resize', resize, { passive: true });
 
   hero.addEventListener('mousemove', e => {
@@ -90,160 +91,133 @@ document.querySelectorAll('.stat').forEach(s => statObserver.observe(s));
   }, { passive: true });
   hero.addEventListener('touchend', () => { mouse.x = -9999; mouse.y = -9999; });
 
-  // Key phrases drawn from real recommendations and career impact
   const PHRASES = [
-    // LinkedIn recommendations
-    'zeal & willingness to take on challenges',
-    'incredibly commendable',
+    // Recommendations — LinkedIn
+    'received a callback from Meta ★★★★★',
     'passionate and proactive',
+    'zeal & willingness to take on challenges',
+    'great maturity & dedication',
+    'seeker mentality',
     'owns his responsibilities',
     'delivers value everyday',
-    'quick on solving problems',
-    'well organised for all his tasks',
     'fast learner',
-    'seeker mentality',
-    'great maturity & dedication',
     'made his presence felt',
+    'keep learning, stay agile',
     'faster, reliable deployments',
     'unique DevOps dashboards',
-    'hosting our annual party with 2000+ people',
     'active on all fronts',
-    'released changes onto PRODUCTION',
-    'valuable contributions',
-    'keep learning and stay agile',
-    'balance and dedication to his career',
-    'joined from Grad Programme in 2019',
-    'organising and hosting events',
-    'expert in DevOps',
-    'environment for faster deployments',
-    'challenging tasks — no problem',
-    'commendable zeal',
-    'proactive individual',
-    'area of expertise',
-    'familiar with tech stack very quickly',
-    'Markets level dashboards',
-    'great maturity displayed',
-    // Topmate reviews
-    'received a callback from Meta ★★★★★',
-    'highly recommend his assistance',
+    'quick on solving problems',
+    // Recommendations — Topmate
+    'highly recommend ★★★★★',
     'sharp, insightful feedback',
-    'didn\'t rush through any part',
-    'clarity and thoughtful suggestions',
     'walked me through specific changes',
-    'valuable mock interview feedback',
-    'helped me improve on my weaknesses',
+    'patiently walked through my resume',
+    'clarity without rushing',
     'friendly and motivating',
     'understands your situation first',
     'broader, more realistic understanding',
-    'shared valuable insights from experience',
-    'patiently walked through my resume',
-    'really appreciated his clarity',
+    'helped me improve on my weaknesses',
     '★★★★★',
-    'better interviewee',
-    'resume more effective',
-    'asks questions, then answers',
-    'standing in our shoes',
-    'informative session',
-    'no rush, all clarity',
-    'insightful & patient',
-    'mock interview · real results',
-    // Career numbers
+    // Impact numbers
     '1.5B records · zero discrepancies',
     '$150K saved annually',
-    '30% fewer SLA breaches',
     '$2.5M fraud mitigated',
     '$1M on-call cost reduction',
+    '$140K licensing eliminated',
     '100TB+ migrated to cloud',
-    '150+ global teams empowered',
-    '80% processing volume reduction',
-    '$140K licensing fees eliminated',
-    '<2 min dependency resolution',
-    '100K+ dependencies evaluated',
-    '10 self-onboarded teams',
+    '150+ global teams',
+    '80% processing reduction',
+    '30% fewer SLA breaches',
+    '$6M+ measurable impact',
     '5+ years of impact',
-    '$6M+ in measurable savings',
-    '0 data discrepancies',
-    'processing 1.5 billion records',
-    'mitigating $2.5M in fraud',
-    'saving $150K every year',
-    'eliminating $140K in licensing',
-    '80% pipeline reduction',
-    'inauthenticity detection at scale',
-    'item-level risk-control engines',
-    // Tech
+    // Tech stack
     'PySpark · Hive · Airflow',
     'Kafka · Flink · AWS',
     'Redshift · S3 · Spark',
-    'Tableau · SQL · Python',
-    'Jenkins · Java · Cloud',
     'GDPR · CCPA · KMS encrypted',
     'self-healing pipelines',
     'real-time analytics at scale',
     'idempotent data pipelines',
-    'step-function alerting',
-    'API batching & Redis',
-    'hybrid-cloud migration',
-    'incremental pipeline design',
-    'stateful alerting systems',
     'Airflow-orchestrated automation',
-    'no-code configuration framework',
-    'EMR · Kafka · Flink on AWS',
-    'centralized data warehouse',
-    'cloud-native data lake',
+    'hybrid-cloud migration',
+    'step-function alerting',
+    // Identity
     'Senior Data Engineer · Seattle',
-    'Texas A&M · MS MIS · 2024',
     'AWS Certified Developer',
-    'Professional Scrum Master',
     'TikTok · HSBC',
+    'Texas A&M · 2024',
+    'Professional Scrum Master',
   ];
 
-  const quoteParticles = PHRASES.map(text => {
-    const big = /\$|records|teams|fraud|★|%|TB|min|K\+/.test(text);
+  const REPEL    = 160;
+  const MAX_SPEE = 7;
+  const PAD      = 16;
+
+  // Build particles after canvas exists so we can measure text
+  const particles = PHRASES.map(text => {
+    const big   = /\$|records|teams|★|%|TB/.test(text);
+    const size  = big ? Math.random() * 3 + 14 : Math.random() * 4 + 11;
+    const weight = big ? '600' : '400';
+    const angle = Math.random() * Math.PI * 2;
+    const spd   = 0.35 + Math.random() * 0.4;
     return {
-      text,
-      x: Math.random() * (W || 1400),
-      y: Math.random() * (H || 900),
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      size: big ? (Math.random() * 3 + 13) : (Math.random() * 4 + 10),
-      alpha: Math.random() * 0.2 + 0.12,
-      weight: big ? '600' : '400',
+      text, size, weight,
+      alpha: Math.random() * 0.18 + 0.13,
+      x: 0, y: 0,      // placed after first resize
+      vx: Math.cos(angle) * spd,
+      vy: Math.sin(angle) * spd,
+      cvx: Math.cos(angle) * spd,  // cruise velocity — always drifting
+      cvy: Math.sin(angle) * spd,
+      tw: 0,            // text width, measured lazily
+      placed: false,
     };
   });
 
-  const REPEL = 180;
-  const MAX_SPEED = 5;
+  // Initial canvas size + scatter particles across it
+  W = canvas.width  = hero.offsetWidth;
+  H = canvas.height = hero.offsetHeight;
+  particles.forEach(p => {
+    p.x = PAD + Math.random() * (W - PAD * 2);
+    p.y = PAD + Math.random() * (H - PAD * 2);
+    p.placed = true;
+  });
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
 
-    quoteParticles.forEach(p => {
+    particles.forEach(p => {
+      // Measure text width once (or after resize)
+      if (!p.tw) {
+        ctx.font = `${p.weight} ${p.size}px -apple-system, BlinkMacSystemFont, sans-serif`;
+        p.tw = ctx.measureText(p.text).width;
+      }
+
+      // Mouse repel
       const dx = p.x - mouse.x;
       const dy = p.y - mouse.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
       if (dist < REPEL && dist > 0) {
-        const force = ((REPEL - dist) / REPEL) * 2.2;
+        const force = ((REPEL - dist) / REPEL) * 3.5;
         p.vx += (dx / dist) * force;
         p.vy += (dy / dist) * force;
       }
 
-      p.vx *= 0.965;
-      p.vy *= 0.965;
+      // Gently steer back toward cruise velocity so motion never stops
+      p.vx += (p.cvx - p.vx) * 0.03;
+      p.vy += (p.cvy - p.vy) * 0.03;
 
-      const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      if (speed > MAX_SPEED) {
-        p.vx = (p.vx / speed) * MAX_SPEED;
-        p.vy = (p.vy / speed) * MAX_SPEED;
-      }
+      // Speed cap
+      const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+      if (spd > MAX_SPEE) { p.vx = (p.vx / spd) * MAX_SPEE; p.vy = (p.vy / spd) * MAX_SPEE; }
 
       p.x += p.vx;
       p.y += p.vy;
 
-      // Wrap around with text-width margin
-      if (p.x < -300) p.x = W + 150;
-      if (p.x > W + 300) p.x = -150;
-      if (p.y < -40)  p.y = H + 20;
-      if (p.y > H + 40) p.y = -20;
+      // Bounce off all four walls — flip cruise direction too so it keeps going
+      if (p.x < PAD)              { p.x = PAD;              p.vx = Math.abs(p.vx);  p.cvx = Math.abs(p.cvx);  }
+      if (p.x > W - p.tw - PAD)  { p.x = W - p.tw - PAD;  p.vx = -Math.abs(p.vx); p.cvx = -Math.abs(p.cvx); }
+      if (p.y < p.size + PAD)     { p.y = p.size + PAD;     p.vy = Math.abs(p.vy);  p.cvy = Math.abs(p.cvy);  }
+      if (p.y > H - PAD)          { p.y = H - PAD;          p.vy = -Math.abs(p.vy); p.cvy = -Math.abs(p.cvy); }
 
       ctx.font = `${p.weight} ${p.size}px -apple-system, BlinkMacSystemFont, sans-serif`;
       ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
