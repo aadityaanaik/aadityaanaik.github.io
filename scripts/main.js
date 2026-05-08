@@ -21,13 +21,19 @@ mobileLinks.forEach(l => l.addEventListener('click', () => {
 }));
 
 /* ─── Reveal on Scroll ──────────────────────────────────────────────────────── */
+// In modern browsers CSS Scroll Timeline handles reveals continuously.
+// Fall back to IntersectionObserver for browsers that don't support it.
+const sScrollTimeline = CSS.supports('animation-timeline: view()');
+
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     e.target.classList.toggle('visible', e.isIntersecting);
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+if (!sScrollTimeline) {
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+}
 
 /* ─── Counter Animation ─────────────────────────────────────────────────────── */
 function animateCounter(el, target, duration = 1600) {
@@ -665,10 +671,9 @@ window.addEventListener('scroll', () => {
 /* ─── Directional Reveals ───────────────────────────────────────────────────── */
 (function initDirectionalReveals() {
   // About: text from left, cards from right
-  // .about__text has no reveal class in HTML so we must add it and observe it
   document.querySelectorAll('.about__text').forEach(el => {
     el.classList.add('reveal', 'reveal--left');
-    revealObserver.observe(el);
+    if (!sScrollTimeline) revealObserver.observe(el);
   });
   document.querySelectorAll('.about__cards').forEach(el => el.classList.add('reveal--right'));
 
