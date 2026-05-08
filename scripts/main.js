@@ -22,13 +22,10 @@ mobileLinks.forEach(l => l.addEventListener('click', () => {
 
 /* ─── Reveal on Scroll ──────────────────────────────────────────────────────── */
 const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      revealObserver.unobserve(e.target);
-    }
+  entries.forEach(e => {
+    e.target.classList.toggle('visible', e.isIntersecting);
   });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
@@ -50,10 +47,11 @@ function animateCounter(el, target, duration = 1600) {
 
 const statObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => {
+    const num = e.target.querySelector('.stat__num');
+    if (!num) return;
     if (e.isIntersecting) {
-      const num = e.target.querySelector('.stat__num');
-      if (num) animateCounter(num, parseFloat(num.dataset.target));
-      statObserver.unobserve(e.target);
+      num.textContent = '0';
+      animateCounter(num, parseFloat(num.dataset.target));
     }
   });
 }, { threshold: 0.5 });
