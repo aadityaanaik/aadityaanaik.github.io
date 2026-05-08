@@ -710,3 +710,17 @@ window.addEventListener('scroll', () => {
     });
   }, { passive: true });
 })();
+
+/* ─── Footer Scroll Animation ───────────────────────────────────────────────── */
+(function initFooterAnimation() {
+  const footerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      e.target.classList.toggle('visible', e.isIntersecting);
+    });
+  }, { threshold: 0.2 });
+
+  ['.footer__tagline', '.footer__email', '.footer__links-wrap'].forEach(sel => {
+    const el = document.querySelector(sel);
+    if (el) footerObserver.observe(el);
+  });
+})();
