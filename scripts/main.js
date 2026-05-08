@@ -665,7 +665,11 @@ window.addEventListener('scroll', () => {
 /* ─── Directional Reveals ───────────────────────────────────────────────────── */
 (function initDirectionalReveals() {
   // About: text from left, cards from right
-  document.querySelectorAll('.about__text').forEach(el => el.classList.add('reveal--left'));
+  // .about__text has no reveal class in HTML so we must add it and observe it
+  document.querySelectorAll('.about__text').forEach(el => {
+    el.classList.add('reveal', 'reveal--left');
+    revealObserver.observe(el);
+  });
   document.querySelectorAll('.about__cards').forEach(el => el.classList.add('reveal--right'));
 
   // Timeline items: alternate left / right
