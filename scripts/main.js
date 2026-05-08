@@ -626,3 +626,89 @@ window.addEventListener('scroll', () => {
 
   onScroll();
 })();
+
+/* ─── Scroll Progress Bar ───────────────────────────────────────────────────── */
+(function initScrollProgress() {
+  const bar = document.createElement('div');
+  bar.id = 'scroll-progress';
+  document.body.prepend(bar);
+  window.addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (window.scrollY / max * 100) + '%';
+  }, { passive: true });
+})();
+
+/* ─── 3D Mouse-Tilt on Cards ────────────────────────────────────────────────── */
+(function initTilt() {
+  function addTilt(selector, deg) {
+    document.querySelectorAll(selector).forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width  - 0.5;
+        const y = (e.clientY - r.top)  / r.height - 0.5;
+        card.style.transition = 'transform .08s ease, box-shadow .08s ease';
+        card.style.transform  = `perspective(900px) rotateY(${x*deg}deg) rotateX(${-y*deg}deg) translateY(-6px) scale(1.02)`;
+        card.style.boxShadow  = `${-x*24}px ${y*16}px 40px rgba(0,0,0,0.13)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform .55s cubic-bezier(0.34,1.56,0.64,1), box-shadow .4s ease';
+        card.style.transform  = '';
+        card.style.boxShadow  = '';
+      });
+    });
+  }
+  addTilt('.timeline__card', 7);
+  addTilt('.project-card',   6);
+  addTilt('.about__card',    10);
+  addTilt('.tcard',          5);
+  addTilt('.skills__panel',  4);
+})();
+
+/* ─── Directional Reveals ───────────────────────────────────────────────────── */
+(function initDirectionalReveals() {
+  // About: text from left, cards from right
+  document.querySelectorAll('.about__text').forEach(el => el.classList.add('reveal--left'));
+  document.querySelectorAll('.about__cards').forEach(el => el.classList.add('reveal--right'));
+
+  // Timeline items: alternate left / right
+  document.querySelectorAll('.timeline__item').forEach((el, i) => {
+    el.classList.add(i % 2 === 0 ? 'reveal--left' : 'reveal--right');
+  });
+
+  // Project cards: scale up
+  document.querySelectorAll('.project-card').forEach(el => el.classList.add('reveal--scale'));
+
+  // Stagger grids
+  ['.stats__inner', '.projects__grid', '.skills__grid', '.about__cards', '.testimonials__grid']
+    .forEach(sel => {
+      const el = document.querySelector(sel);
+      if (el) el.classList.add('stagger');
+    });
+})();
+
+/* ─── Timeline Line Draw on Scroll ─────────────────────────────────────────── */
+(function initTimelineDraw() {
+  const tl = document.querySelector('.timeline');
+  if (!tl) return;
+  function update() {
+    const rect = tl.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1,
+      (window.innerHeight * 0.75 - rect.top) / rect.height
+    ));
+    tl.style.setProperty('--line-progress', progress);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+/* ─── Section Label Parallax ────────────────────────────────────────────────── */
+(function initLabelParallax() {
+  const labels = document.querySelectorAll('.section-label');
+  window.addEventListener('scroll', () => {
+    labels.forEach(label => {
+      const rect  = label.getBoundingClientRect();
+      const delta = (window.innerHeight * 0.5 - rect.top) * 0.12;
+      label.style.transform = `translateY(${-delta}px)`;
+    });
+  }, { passive: true });
+})();

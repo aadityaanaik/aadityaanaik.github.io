@@ -76,18 +76,37 @@ body {
 /* ─── Reveal Animations ─────────────────────────────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transform: translateY(52px);
+  transition: opacity .9s cubic-bezier(0.16,1,0.3,1), transform .9s cubic-bezier(0.16,1,0.3,1);
 }
 .reveal.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none !important;
 }
-.reveal:nth-child(2) { transition-delay: .1s; }
-.reveal:nth-child(3) { transition-delay: .2s; }
-.reveal:nth-child(4) { transition-delay: .3s; }
-.reveal:nth-child(5) { transition-delay: .4s; }
-.reveal:nth-child(6) { transition-delay: .5s; }
+/* Directional variants */
+.reveal--left  { transform: translateX(-56px) translateY(20px); }
+.reveal--right { transform: translateX(56px)  translateY(20px); }
+.reveal--scale { transform: scale(0.88) translateY(32px); }
+
+/* Stagger within a container */
+.stagger > .reveal:nth-child(1) { transition-delay: 0ms; }
+.stagger > .reveal:nth-child(2) { transition-delay: 90ms; }
+.stagger > .reveal:nth-child(3) { transition-delay: 180ms; }
+.stagger > .reveal:nth-child(4) { transition-delay: 270ms; }
+.stagger > .reveal:nth-child(5) { transition-delay: 360ms; }
+.stagger > .reveal:nth-child(6) { transition-delay: 450ms; }
+
+/* Scroll progress bar */
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+  z-index: 200;
+  pointer-events: none;
+  transition: width .08s linear;
+}
 
 /* ─── Buttons ───────────────────────────────────────────────────────────────── */
 .btn {
@@ -482,10 +501,13 @@ body {
 .timeline::before {
   content: '';
   position: absolute;
-  left: 10px; top: 0; bottom: 0;
+  left: 10px; top: 0;
   width: 2px;
+  height: 100%;
   background: linear-gradient(to bottom, var(--accent-1), var(--accent-2), transparent);
   border-radius: 2px;
+  transform-origin: top center;
+  transform: scaleY(var(--line-progress, 0));
 }
 
 .timeline__item {
@@ -507,9 +529,10 @@ body {
 .timeline__card {
   border-radius: var(--radius-lg);
   padding: 32px;
-  transition: transform .3s var(--ease-spring), box-shadow .3s ease;
+  transition: transform .4s var(--ease-spring), box-shadow .4s ease;
+  will-change: transform;
 }
-.timeline__card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.timeline__card:hover { box-shadow: var(--shadow-lg); }
 
 .timeline__header {
   display: flex;
@@ -594,7 +617,8 @@ body {
   transition: transform .35s var(--ease-spring), box-shadow .35s ease;
   cursor: default;
 }
-.project-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: var(--shadow-lg); }
+.project-card { will-change: transform; }
+.project-card:hover { box-shadow: var(--shadow-lg); }
 
 .project-card__top {
   display: flex;
