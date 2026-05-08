@@ -150,48 +150,59 @@ document.querySelectorAll('.stat').forEach(s => statObserver.observe(s));
   ];
 
   const REPEL    = 160;
-  const MAX_SPEE = 7;
-  const PAD      = 16;
+  const MAX_SPD  = 7;
+  const PAD      = 20;
 
-  // Build particles after canvas exists so we can measure text
+  function measureAll() {
+    particles.forEach(p => {
+      ctx.font = `${p.weight} ${p.size}px -apple-system, BlinkMacSystemFont, sans-serif`;
+      p.tw = ctx.measureText(p.text).width;
+    });
+  }
+
+  function resize() {
+    W = canvas.width  = hero.offsetWidth;
+    H = canvas.height = hero.offsetHeight;
+    measureAll();
+    // Clamp any out-of-bounds positions after resize
+    particles.forEach(p => {
+      p.x = Math.min(Math.max(p.x, PAD), W - p.tw - PAD);
+      p.y = Math.min(Math.max(p.y, p.size + PAD), H - PAD);
+    });
+  }
+  window.addEventListener('resize', resize, { passive: true });
+
+  // Build particles
   const particles = PHRASES.map(text => {
-    const big   = /\$|records|teams|★|%|TB/.test(text);
-    const size  = big ? Math.random() * 3 + 14 : Math.random() * 4 + 11;
+    const big    = /\$|records|teams|★|%|TB/.test(text);
+    const size   = big ? Math.random() * 3 + 14 : Math.random() * 4 + 11;
     const weight = big ? '600' : '400';
-    const angle = Math.random() * Math.PI * 2;
-    const spd   = 0.35 + Math.random() * 0.4;
+    const angle  = Math.random() * Math.PI * 2;
+    const spd    = 0.35 + Math.random() * 0.4;
     return {
       text, size, weight,
       alpha: Math.random() * 0.18 + 0.13,
-      x: 0, y: 0,      // placed after first resize
+      x: 0, y: 0, tw: 0,
       vx: Math.cos(angle) * spd,
       vy: Math.sin(angle) * spd,
-      cvx: Math.cos(angle) * spd,  // cruise velocity — always drifting
+      cvx: Math.cos(angle) * spd,
       cvy: Math.sin(angle) * spd,
-      tw: 0,            // text width, measured lazily
-      placed: false,
     };
   });
 
-  // Initial canvas size + scatter particles across it
+  // Set canvas size, measure widths, then place particles within valid bounds
   W = canvas.width  = hero.offsetWidth;
   H = canvas.height = hero.offsetHeight;
+  measureAll();
   particles.forEach(p => {
-    p.x = PAD + Math.random() * (W - PAD * 2);
-    p.y = PAD + Math.random() * (H - PAD * 2);
-    p.placed = true;
+    p.x = PAD + Math.random() * Math.max(1, W - p.tw - PAD * 2);
+    p.y = p.size + PAD + Math.random() * Math.max(1, H - p.size - PAD * 2);
   });
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
 
     particles.forEach(p => {
-      // Measure text width once (or after resize)
-      if (!p.tw) {
-        ctx.font = `${p.weight} ${p.size}px -apple-system, BlinkMacSystemFont, sans-serif`;
-        p.tw = ctx.measureText(p.text).width;
-      }
-
       // Mouse repel
       const dx = p.x - mouse.x;
       const dy = p.y - mouse.y;
@@ -202,22 +213,26 @@ document.querySelectorAll('.stat').forEach(s => statObserver.observe(s));
         p.vy += (dy / dist) * force;
       }
 
-      // Gently steer back toward cruise velocity so motion never stops
+      // Steer back toward cruise velocity so motion never dies
       p.vx += (p.cvx - p.vx) * 0.03;
       p.vy += (p.cvy - p.vy) * 0.03;
 
       // Speed cap
       const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      if (spd > MAX_SPEE) { p.vx = (p.vx / spd) * MAX_SPEE; p.vy = (p.vy / spd) * MAX_SPEE; }
+      if (spd > MAX_SPD) { p.vx = (p.vx / spd) * MAX_SPD; p.vy = (p.vy / spd) * MAX_SPD; }
 
       p.x += p.vx;
       p.y += p.vy;
 
-      // Bounce off all four walls — flip cruise direction too so it keeps going
-      if (p.x < PAD)              { p.x = PAD;              p.vx = Math.abs(p.vx);  p.cvx = Math.abs(p.cvx);  }
-      if (p.x > W - p.tw - PAD)  { p.x = W - p.tw - PAD;  p.vx = -Math.abs(p.vx); p.cvx = -Math.abs(p.cvx); }
-      if (p.y < p.size + PAD)     { p.y = p.size + PAD;     p.vy = Math.abs(p.vy);  p.cvy = Math.abs(p.cvy);  }
-      if (p.y > H - PAD)          { p.y = H - PAD;          p.vy = -Math.abs(p.vy); p.cvy = -Math.abs(p.cvy); }
+      // Bounce — left/right use text width, top/bottom use font size as margin
+      const rWall = W - p.tw - PAD;
+      const bWall = H - PAD;
+      const tWall = p.size + PAD;
+
+      if (p.x < PAD)    { p.x = PAD;    p.vx = Math.abs(p.vx);  p.cvx = Math.abs(p.cvx);  }
+      if (p.x > rWall)  { p.x = rWall;  p.vx = -Math.abs(p.vx); p.cvx = -Math.abs(p.cvx); }
+      if (p.y < tWall)  { p.y = tWall;  p.vy = Math.abs(p.vy);  p.cvy = Math.abs(p.cvy);  }
+      if (p.y > bWall)  { p.y = bWall;  p.vy = -Math.abs(p.vy); p.cvy = -Math.abs(p.cvy); }
 
       ctx.font = `${p.weight} ${p.size}px -apple-system, BlinkMacSystemFont, sans-serif`;
       ctx.fillStyle = `rgba(255,255,255,${p.alpha})`;
